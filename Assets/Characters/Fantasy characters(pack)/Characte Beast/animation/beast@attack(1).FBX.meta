@@ -1,0 +1,166 @@
+fileFormatVersion: 2
+guid: d2507522b0c036c419c1466f899282ef
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: CATRigHub001
+    100004: CATRigHub002
+    100006: CATRigHub003
+    100008: CATRigHub003Bone001
+    100010: CATRigHub003Bone002
+    100012: CATRigHub003Bone003
+    100014: CATRigHub003Bone004
+    100016: CATRigLArm1
+    100018: CATRigLArm21
+    100020: CATRigLArm22
+    100022: CATRigLArmCollarbone
+    100024: CATRigLArmDigit11
+    100026: CATRigLArmDigit12
+    100028: CATRigLArmDigit13
+    100030: CATRigLArmDigit21
+    100032: CATRigLArmDigit22
+    100034: CATRigLArmDigit23
+    100036: CATRigLArmDigit31
+    100038: CATRigLArmDigit32
+    100040: CATRigLArmDigit33
+    100042: CATRigLArmPalm
+    100044: CATRigLLeg1
+    100046: CATRigLLeg1 1
+    100048: CATRigLLegPlatform
+    100050: CATRigRArm1
+    100052: CATRigRArm21
+    100054: CATRigRArm22
+    100056: CATRigRArmCollarbone
+    100058: CATRigRArmDigit11
+    100060: CATRigRArmDigit12
+    100062: CATRigRArmDigit13
+    100064: CATRigRArmDigit21
+    100066: CATRigRArmDigit22
+    100068: CATRigRArmDigit23
+    100070: CATRigRArmDigit31
+    100072: CATRigRArmDigit32
+    100074: CATRigRArmDigit33
+    100076: CATRigRArmPalm
+    100078: CATRigRLeg1
+    100080: CATRigRLeg1 1
+    100082: CATRigRLegPlatform
+    100084: CATRigSpine
+    100086: CATRigSpine1
+    100088: CATRigSpine2
+    100090: Character001
+    100092: Low_body
+    100094: Low_eyes001
+    100096: stone
+    400000: //RootNode
+    400002: CATRigHub001
+    400004: CATRigHub002
+    400006: CATRigHub003
+    400008: CATRigHub003Bone001
+    400010: CATRigHub003Bone002
+    400012: CATRigHub003Bone003
+    400014: CATRigHub003Bone004
+    400016: CATRigLArm1
+    400018: CATRigLArm21
+    400020: CATRigLArm22
+    400022: CATRigLArmCollarbone
+    400024: CATRigLArmDigit11
+    400026: CATRigLArmDigit12
+    400028: CATRigLArmDigit13
+    400030: CATRigLArmDigit21
+    400032: CATRigLArmDigit22
+    400034: CATRigLArmDigit23
+    400036: CATRigLArmDigit31
+    400038: CATRigLArmDigit32
+    400040: CATRigLArmDigit33
+    400042: CATRigLArmPalm
+    400044: CATRigLLeg1
+    400046: CATRigLLeg1 1
+    400048: CATRigLLegPlatform
+    400050: CATRigRArm1
+    400052: CATRigRArm21
+    400054: CATRigRArm22
+    400056: CATRigRArmCollarbone
+    400058: CATRigRArmDigit11
+    400060: CATRigRArmDigit12
+    400062: CATRigRArmDigit13
+    400064: CATRigRArmDigit21
+    400066: CATRigRArmDigit22
+    400068: CATRigRArmDigit23
+    400070: CATRigRArmDigit31
+    400072: CATRigRArmDigit32
+    400074: CATRigRArmDigit33
+    400076: CATRigRArmPalm
+    400078: CATRigRLeg1
+    400080: CATRigRLeg1 1
+    400082: CATRigRLegPlatform
+    400084: CATRigSpine
+    400086: CATRigSpine1
+    400088: CATRigSpine2
+    400090: Character001
+    400092: Low_body
+    400094: Low_eyes001
+    400096: stone
+    2300000: Low_eyes001
+    2300002: stone
+    3300000: Low_eyes001
+    3300002: stone
+    4300000: Low_body
+    4300002: Low_eyes001
+    4300004: stone
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Low_body
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
