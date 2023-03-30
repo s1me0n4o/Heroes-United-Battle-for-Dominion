@@ -1,11 +1,13 @@
 using Camera;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utils;
 
 public class UnitActionSystem : MonoBehaviour
 {
     [SerializeField] private Unit _selectedUnit;
 
+    public Unit SelectedUnit => _selectedUnit;
     private DefaultActions _defaultActions;
     private DefaultActions DefaultActions => _defaultActions ??= new DefaultActions();
 
