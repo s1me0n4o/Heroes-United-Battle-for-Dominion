@@ -68,6 +68,8 @@ namespace Camera
         [SerializeField] private float _mouseDragSpeedPhone = .3f; // lower value than .1f create snapping because removing the smoothness
         [SerializeField] private float _mouseDragSpeed = .1f; // lower value than .1f create snapping because removing the smoothness
 
+        public static event Action<Unit> OnInteractableSelected;
+        
         /////////////////////////////////////////////////////
         public float ZoomCameraDistance => _zoomCameraDistance;
         public float MaxCameraDistance => _maxZoomDistance;
@@ -77,6 +79,8 @@ namespace Camera
         public State CameraState { get; private set; } = State.None;
 
         public bool IsScrolling { get; private set; }
+        public Vector3 WorldTargetPosition => _worldTargetPos;
+
 
         /////////////////////////////////////////////////////
         private CinemachineVirtualCamera _virtualCamera;
@@ -99,6 +103,7 @@ namespace Camera
         private bool _isPressed;
         private DefaultActions _defaultActions;
         private readonly float _hitRayMaxDistance = 5000f;
+        private Vector3 _worldTargetPos;
 
         /////////////////////////////////////////////////////
         private const float _kScreenXY = 0.5f;
@@ -218,6 +223,9 @@ namespace Camera
                     maxDistance: _hitRayMaxDistance,
                     _layerInteractable))
                 {
+                    if (hit.transform.TryGetComponent<Unit>(out var unit))
+                        OnInteractableSelected?.Invoke(unit);
+                    
                     InteractableSelected(hit.transform.position, true, true);
                 }
 
@@ -296,7 +304,7 @@ namespace Camera
 
         private void OnClickPerformed(InputAction.CallbackContext context)
         {
-            _isPressed = context.ReadValue<float>() == 1 && !(CameraState == State.PinchZoom);
+            _isPressed = context.ReadValue<float>() == 1 && CameraState != State.PinchZoom;
 
             AdjustDamping(false);
             // Getting initial data
@@ -767,7 +775,7 @@ namespace Camera
             StopDampingAndDeadZone();
         }
 
-        private Vector3 GetWorldPositionOnPlane(Vector3 screenPosition)
+        public Vector3 GetWorldPositionOnPlane(Vector3 screenPosition)
         {
             var ray = _mainCamera.ScreenPointToRay(screenPosition);
             return _plane.Raycast(ray, out var entry) ? ray.GetPoint(entry) : Vector3.zero;

@@ -89,6 +89,15 @@ public partial class @DefaultActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""8fdddd13-e259-420e-a9f5-ad3bccd05097"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -476,6 +485,17 @@ public partial class @DefaultActions : IInputActionCollection2, IDisposable
                     ""action"": ""SecondaryTouchContact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c641e7c0-46b9-4c7e-b8fc-9f403b341c85"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -491,6 +511,7 @@ public partial class @DefaultActions : IInputActionCollection2, IDisposable
         m_UI_PrimaryFingerPosition = m_UI.FindAction("PrimaryFingerPosition", throwIfNotFound: true);
         m_UI_SecondaryFingerPosition = m_UI.FindAction("SecondaryFingerPosition", throwIfNotFound: true);
         m_UI_SecondaryTouchContact = m_UI.FindAction("SecondaryTouchContact", throwIfNotFound: true);
+        m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -557,6 +578,7 @@ public partial class @DefaultActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_PrimaryFingerPosition;
     private readonly InputAction m_UI_SecondaryFingerPosition;
     private readonly InputAction m_UI_SecondaryTouchContact;
+    private readonly InputAction m_UI_RightClick;
     public struct UIActions
     {
         private @DefaultActions m_Wrapper;
@@ -568,6 +590,7 @@ public partial class @DefaultActions : IInputActionCollection2, IDisposable
         public InputAction @PrimaryFingerPosition => m_Wrapper.m_UI_PrimaryFingerPosition;
         public InputAction @SecondaryFingerPosition => m_Wrapper.m_UI_SecondaryFingerPosition;
         public InputAction @SecondaryTouchContact => m_Wrapper.m_UI_SecondaryTouchContact;
+        public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -598,6 +621,9 @@ public partial class @DefaultActions : IInputActionCollection2, IDisposable
                 @SecondaryTouchContact.started -= m_Wrapper.m_UIActionsCallbackInterface.OnSecondaryTouchContact;
                 @SecondaryTouchContact.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnSecondaryTouchContact;
                 @SecondaryTouchContact.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnSecondaryTouchContact;
+                @RightClick.started -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
+                @RightClick.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
+                @RightClick.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -623,6 +649,9 @@ public partial class @DefaultActions : IInputActionCollection2, IDisposable
                 @SecondaryTouchContact.started += instance.OnSecondaryTouchContact;
                 @SecondaryTouchContact.performed += instance.OnSecondaryTouchContact;
                 @SecondaryTouchContact.canceled += instance.OnSecondaryTouchContact;
+                @RightClick.started += instance.OnRightClick;
+                @RightClick.performed += instance.OnRightClick;
+                @RightClick.canceled += instance.OnRightClick;
             }
         }
     }
@@ -636,5 +665,6 @@ public partial class @DefaultActions : IInputActionCollection2, IDisposable
         void OnPrimaryFingerPosition(InputAction.CallbackContext context);
         void OnSecondaryFingerPosition(InputAction.CallbackContext context);
         void OnSecondaryTouchContact(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
     }
 }
