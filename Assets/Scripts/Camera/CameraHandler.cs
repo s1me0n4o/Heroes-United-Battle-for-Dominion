@@ -83,14 +83,13 @@ namespace Camera
         private UnityEngine.Camera _mainCamera;
         private CinemachineFramingTransposer _transposer;
         private LockCameraY _cameraLockXY;
-        private FocusCameraByScript _focusCameraByScript;
         private Vector3 _targetCurrentPos;
         private Vector3 _dragOrigin;
         private Vector3 _dragCurrentPosition;
         private Vector3 _velocity = Vector3.zero;
         private Vector2 _initialScreenPoint;
         private Plane _plane;
-        private readonly float _globalMultiplyer = 2f;
+        private readonly float _globalMultiplayer = 2f;
         private int _layerInteractable;
         private bool _pinchZoom;
         private readonly float _threshold = 30f;
@@ -106,13 +105,6 @@ namespace Camera
         private const string _kInteractableObj = "InteractableObject";
 
         private DefaultActions DefaultActions => _defaultActions ??= new DefaultActions();
-
-        protected override void Awake()
-        {
-            base.Awake();
-
-            _focusCameraByScript = GetComponent<FocusCameraByScript>();
-        }
 
         private void Start()
         {
@@ -133,7 +125,7 @@ namespace Camera
             OnEnableSmoothness(true);
 
             // initial camera position;
-            _cameraFollowTarget.position = new Vector3(-4, 0, 8);
+            _cameraFollowTarget.position = Vector3.zero;
 
             _cameraLockXY.YPosition = _virtualCamera.gameObject.transform.position.y;
             _layerInteractable = LayerMask.GetMask(_kInteractableObj);
@@ -152,11 +144,6 @@ namespace Camera
             DefaultActions.UI.Click.performed += OnClickPerformed;
             DefaultActions.UI.Navigate.performed += OnNavigatePerformed;
             DefaultActions.UI.ScrollWheel.performed += OnScrollPerformed;
-            //DebugMenu.EnableCameraSmoothness += OnEnableSmoothness;
-            //DebugMenu.EnableCameraTargetMesh += OnEnableCameraTargetMesh;
-            //DebugMenu.EnableCameraRotation += OnEnableCameraCameraRotation;
-
-            _focusCameraByScript.OnMovementInvoked += MovementInvoked;
         }
 
         private void OnDisable()
@@ -164,11 +151,6 @@ namespace Camera
             DefaultActions.UI.Click.performed -= OnClickPerformed;
             DefaultActions.UI.Navigate.performed -= OnNavigatePerformed;
             DefaultActions.UI.ScrollWheel.performed -= OnScrollPerformed;
-            //DebugMenu.EnableCameraSmoothness -= OnEnableSmoothness;
-            //DebugMenu.EnableCameraTargetMesh -= OnEnableCameraTargetMesh;
-            //DebugMenu.EnableCameraRotation -= OnEnableCameraCameraRotation;
-
-            _focusCameraByScript.OnMovementInvoked -= MovementInvoked;
 
             DefaultActions.Disable();
             StopAllCoroutines();
@@ -280,7 +262,7 @@ namespace Camera
                     StopDampingAndDeadZone();
 
                     var currentDistance = _zoomCameraDistance;
-                    _zoomCameraDistance -= _zoomStep * _globalMultiplyer * Time.deltaTime;
+                    _zoomCameraDistance -= _zoomStep * _globalMultiplayer * Time.deltaTime;
                     var step = currentDistance - _zoomCameraDistance;
                     ZoomStepPerc = step / (_maxZoomDistance - _minZoomDistance);
 
@@ -295,7 +277,7 @@ namespace Camera
                     StopDampingAndDeadZone();
 
                     var prevDist = _zoomCameraDistance;
-                    _zoomCameraDistance += _zoomStep * _globalMultiplyer * Time.deltaTime;
+                    _zoomCameraDistance += _zoomStep * _globalMultiplayer * Time.deltaTime;
                     var step = _zoomCameraDistance - prevDist;
                     ZoomStepPerc = step / (_maxZoomDistance - _minZoomDistance);
 
