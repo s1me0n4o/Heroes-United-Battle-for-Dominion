@@ -10,17 +10,11 @@ public class GridGenerator : MonoSingleton<GridGenerator>
 
 	private void Start()
 	{
-		_grid = new Grid<GridObject>(10, 10, 2f, new Vector3(0, 0, 0), gameObject.transform,
+		_grid = new Grid<GridObject>(10, 10, 2f, Vector3.zero, gameObject.transform,
 			(grid, x, z) =>
-				new GridObject(_grid, new GridPosition(x, z)));
+				new GridObject(grid, x, z));
 		_grid.CreateDebugObjects(debugGo, true);
 	}
-
-	// private void Update()
-	// {
-	// 	Debug.Log(_grid.GetGridPosition(CameraHandler.Instance.GetWorldPositionOnPlane(Input.mousePosition)));
-	// }
-
 
 	public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
 	{
@@ -46,8 +40,16 @@ public class GridGenerator : MonoSingleton<GridGenerator>
 		AddUnitAtGridPosition(toPos, unit);
 	}
 
-	public GridPosition GetGridPosition(Vector3 worldPos)
+	public GridPosition GetGridPosition(Vector3 worldPos) => _grid.GetGridPosition(worldPos);
+
+	public Vector3 GetWorldPosition(GridPosition gridPosition) =>
+		_grid.GetWorldPosition(gridPosition.x, gridPosition.z);
+
+	public bool IsValidGridPosition(GridPosition gridPosition) => _grid.IsValidGridPosition(gridPosition);
+
+	public bool HasAnyUnitOnPosition(GridPosition gridPosition)
 	{
-		return _grid.GetGridPosition(worldPos);
+		var gridObj = _grid.GetGridObject(gridPosition);
+		return gridObj.HasAnyUnit();
 	}
 }

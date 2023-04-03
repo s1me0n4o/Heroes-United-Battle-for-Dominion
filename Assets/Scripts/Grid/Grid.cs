@@ -37,6 +37,14 @@ namespace GridSystem
 
 		public event EventHandler<OnGridValueChangedEventArgs> OnGridValueChanged;
 
+		public bool IsValidGridPosition(GridPosition gridPos)
+		{
+			return gridPos.x >= 0 &&
+			       gridPos.z >= 0 &&
+			       gridPos.x < _width &&
+			       gridPos.z < _height;
+		}
+
 		public int GetWorldIndex(int x, int z)
 		{
 			return x + z * _width;
@@ -113,12 +121,10 @@ namespace GridSystem
 
 		public T GetGridObject(GridPosition gridPosition)
 		{
-			// int x, z;
-			// GetXandZ(worldPosition, out x, out z);
 			return GetGridObject(gridPosition.x, gridPosition.z);
 		}
 
-		private Vector3 GetWorldPosition(int x, int z) => new Vector3(x, 0, z) * _cellSize + _originPosition;
+		public Vector3 GetWorldPosition(int x, int z) => new Vector3(x, 0, z) * _cellSize + _originPosition;
 
 		public void CreateDebugObjects(Transform debugPrefab, bool useGameObject = false)
 		{
@@ -231,5 +237,15 @@ public struct GridPosition : IEquatable<GridPosition>
 	public override int GetHashCode()
 	{
 		return HashCode.Combine(x, z);
+	}
+
+	public static GridPosition operator +(GridPosition a, GridPosition b)
+	{
+		return new GridPosition(a.x + b.x, a.z + b.z);
+	}
+
+	public static GridPosition operator -(GridPosition a, GridPosition b)
+	{
+		return new GridPosition(a.x - b.x, a.z - b.z);
 	}
 }

@@ -219,6 +219,7 @@ namespace Camera
 			DefaultActions.Enable();
 
 			DefaultActions.UI.Click.performed += OnClickPerformed;
+			DefaultActions.UI.ScrollClick.performed += OnClickPerformed;
 			DefaultActions.UI.Navigate.performed += OnNavigatePerformed;
 			DefaultActions.UI.ScrollWheel.performed += OnScrollPerformed;
 		}
@@ -226,6 +227,7 @@ namespace Camera
 		private void OnDisable()
 		{
 			DefaultActions.UI.Click.performed -= OnClickPerformed;
+			DefaultActions.UI.ScrollClick.performed -= OnClickPerformed;
 			DefaultActions.UI.Navigate.performed -= OnNavigatePerformed;
 			DefaultActions.UI.ScrollWheel.performed -= OnScrollPerformed;
 
@@ -307,7 +309,6 @@ namespace Camera
 
 				yield return null;
 			}
-			//_cameraCollisionDetection.enabled = true;
 		}
 
 		private void OnClickPerformed(InputAction.CallbackContext context)
@@ -325,78 +326,6 @@ namespace Camera
 		{
 			// Await UI event to be triggered
 			yield return new WaitForEndOfFrame();
-		}
-
-		private IEnumerator PressPerform(InputAction.CallbackContext context)
-		{
-			var isPressed = context.ReadValue<float>() == 1;
-
-			if (isPressed)
-			{
-				AdjustDamping(false);
-				// Getting initial data
-				var initialScreenPoint = DefaultActions.UI.Point.ReadValue<Vector2>();
-				_dragOrigin = GetWorldPositionOnPlane(initialScreenPoint);
-				_elapsedTime = 0;
-
-				while (context.ReadValue<float>() == 1)
-				{
-					if (_pinchZoom)
-						break;
-
-					// Detect difference between screen touches
-					var currentScreenPoint = DefaultActions.UI.Point.ReadValue<Vector2>();
-					var pointsDiffrance = currentScreenPoint - initialScreenPoint;
-
-					// If pressed but not moving
-					if (pointsDiffrance.x < _threshold || pointsDiffrance.x > -_threshold ||
-					    pointsDiffrance.y < _threshold || (pointsDiffrance.y > -_threshold &&
-					                                       CameraState == State.None))
-					{
-						// Check for long press
-						_elapsedTime += Time.deltaTime;
-						if (_elapsedTime > _elapsedTimeMax)
-							//Debug.Log("LongPress");
-							CameraState = State.LongPress;
-					}
-
-					// If its not in the treshhold -> dragging
-					if ((pointsDiffrance.x > _threshold || pointsDiffrance.x < -_threshold ||
-					     pointsDiffrance.y > _threshold || pointsDiffrance.y < -_threshold) &&
-					    CameraState != State.LongPress)
-					{
-						_elapsedTime = 0;
-						CameraState = State.Dragg;
-
-						// Update dragg
-						_dragCurrentPosition = GetWorldPositionOnPlane(DefaultActions.UI.Point.ReadValue<Vector2>());
-						var newPos = _targetCurrentPos + _dragOrigin - _dragCurrentPosition;
-						AdjustPositionWithSmoothDamp(newPos);
-					}
-					// If we are not moving -> clicking
-					else if (CameraState == State.None)
-					{
-						CameraState = State.Click;
-					}
-
-					yield return null;
-				}
-
-				if (CameraState is State.Dragg or State.LongPress)
-					CameraState = State.None;
-			}
-			else if (!isPressed && CameraState == State.Click)
-			{
-				// If we are clicking check for interactable objects
-				if (Physics.Raycast(
-					    _mainCamera.ScreenPointToRay(DefaultActions.UI.Point.ReadValue<Vector2>()),
-					    out var hit,
-					    _hitRayMaxDistance,
-					    _layerInteractable))
-					InteractableSelected(hit.transform.position);
-
-				CameraState = State.None;
-			}
 		}
 
 		private void OnNavigatePerformed(InputAction.CallbackContext context)
