@@ -37,6 +37,7 @@ public class GridGenerator : MonoSingleton<GridGenerator>
 	public void UnitMoveGridPosition(Unit unit, GridPosition fromPos, GridPosition toPos)
 	{
 		RemoveUnitAtGridPosition(fromPos, unit);
+		Debug.Log($"UnitMoveToGrid: {toPos.x}, {toPos.z}");
 		AddUnitAtGridPosition(toPos, unit);
 	}
 

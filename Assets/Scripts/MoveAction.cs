@@ -8,9 +8,10 @@ public class MoveAction : MonoBehaviour
 	[SerializeField] private int _maxMoveDistance = 5;
 	private readonly float _movementSpeed = 4f;
 	private readonly float _rotationSpeed = 10f;
-	private readonly float _stoppingDistance = .1f;
+	private readonly float _stoppingDistance = .01f;
 
 	private Vector3 _targetPosition;
+	public Vector3 TargetPosition => _targetPosition;
 
 	private Unit _unit;
 
@@ -38,6 +39,7 @@ public class MoveAction : MonoBehaviour
 		}
 	}
 
+	//////////////////////////////////////////
 	public void Move(GridPosition gridPosition) =>
 		_targetPosition = GridGenerator.Instance.GetWorldPosition(gridPosition);
 
@@ -51,7 +53,7 @@ public class MoveAction : MonoBehaviour
 	{
 		var validPositions = new List<GridPosition>();
 
-		var unitGridPos = _unit.CurrentGridPosition;
+		var unitGridPos = _unit.GetCurrentGridPosition();
 		// current unit to be in the middle of the search
 		for (var x = -_maxMoveDistance; x <= _maxMoveDistance; x++)
 		{

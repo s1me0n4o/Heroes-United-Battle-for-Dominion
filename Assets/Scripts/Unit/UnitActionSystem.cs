@@ -26,6 +26,7 @@ public class UnitActionSystem : MonoSingleton<UnitActionSystem>
 		CameraHandler.OnInteractableSelected -= OnUnitSelected;
 	}
 
+	//////////////////////////////////////////
 	private void OnUnitSelected(Unit unit) => _selectedUnit = unit;
 
 	private void OnRightClickPerformed(InputAction.CallbackContext ctx)
