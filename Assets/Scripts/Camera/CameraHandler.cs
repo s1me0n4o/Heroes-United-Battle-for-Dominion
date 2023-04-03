@@ -284,8 +284,7 @@ namespace Camera
 					var step = currentDistance - _zoomCameraDistance;
 					ZoomStepPerc = step / (_maxZoomDistance - _minZoomDistance);
 
-					if (_enableCameraZoomRotation)
-						RotateCamera(false);
+					RotateCamera(false);
 				}
 
 				// Camera zoom out
@@ -299,8 +298,7 @@ namespace Camera
 					var step = _zoomCameraDistance - prevDist;
 					ZoomStepPerc = step / (_maxZoomDistance - _minZoomDistance);
 
-					if (_enableCameraZoomRotation)
-						RotateCamera(true);
+					RotateCamera(true);
 				}
 
 				_zoomCameraDistance = Mathf.Clamp(_zoomCameraDistance, _minZoomDistance, _maxZoomDistance);

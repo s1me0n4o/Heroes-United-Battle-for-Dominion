@@ -91,7 +91,8 @@ namespace GridSystem
 
 		public GridPosition GetGridPosition(Vector3 worldPos)
 		{
-			return new GridPosition(Mathf.FloorToInt(worldPos.x / _cellSize), Mathf.FloorToInt(worldPos.z / _cellSize));
+			return new GridPosition(Mathf.FloorToInt((worldPos - _originPosition).x / _cellSize),
+				Mathf.FloorToInt((worldPos - _originPosition).z / _cellSize));
 		}
 
 		private void GetXandZ(Vector3 worldPosition, out int x, out int z)
@@ -130,9 +131,6 @@ namespace GridSystem
 		{
 			_debugTextArray = new TextMeshPro[_width, _height];
 
-			var offset = new Vector3(_cellSize, _cellSize) * 0.45f;
-			var fontSize = (int)_cellSize * 5;
-
 			for (int x = 0; x < _gridArray.GetLength(0); x++)
 			{
 				for (int z = 0; z < _gridArray.GetLength(1); z++)
@@ -142,12 +140,15 @@ namespace GridSystem
 						var gridPos = new GridPosition(x, z);
 						var transform =
 							GameObject.Instantiate(debugPrefab, GetWorldPosition(x, z), Quaternion.identity);
-						transform.localPosition = GetWorldPosition(x, z) + offset;
+						transform.localPosition = GetWorldPosition(x, z);
 						var gridObjVisual = transform.GetComponent<GridObjectVisual>();
 						gridObjVisual.SetGridObject(GetGridObject(gridPos) as GridObject);
 					}
 					else
 					{
+						var offset = new Vector3(_cellSize, _cellSize) * 0.45f;
+						var fontSize = (int)_cellSize * 5;
+
 						_debugTextArray[x, z] = CreateWorldText(_parent, $"{x}, {z}", GetWorldPosition(x, z) + offset,
 							fontSize,
 							Color.black, TextAlignmentOptions.Center, 0);

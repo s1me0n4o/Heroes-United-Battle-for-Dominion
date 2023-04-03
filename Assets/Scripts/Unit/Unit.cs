@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-	public MoveAction MoveAction { get; private set; }
+	// public MoveAction MoveAction { get; private set; }
 	public GridPosition CurrentGridPosition { get; private set; }
 
-	private void Awake() => MoveAction = GetComponent<MoveAction>();
+	private MoveAction _moveAction;
+	private void Awake() => _moveAction = GetComponent<MoveAction>();
+
+	public MoveAction GetMoveAction() => _moveAction;
 
 	private void Start()
 	{
@@ -18,7 +21,7 @@ public class Unit : MonoBehaviour
 		var newGridPos = GridGenerator.Instance.GetGridPosition(transform.position);
 
 		if (newGridPos == CurrentGridPosition) return;
-		if (!MoveAction.IsValidActionGridPosition(newGridPos)) return;
+		if (!_moveAction.IsValidActionGridPosition(newGridPos)) return;
 		GridGenerator.Instance.UnitMoveGridPosition(this, CurrentGridPosition, newGridPos);
 		CurrentGridPosition = newGridPos;
 	}
