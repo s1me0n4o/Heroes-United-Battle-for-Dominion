@@ -1898,6 +1898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buttonEndTurn: {fileID: 1897773895}
   _currentTurnText: {fileID: 1871621967}
+  _turnSystem: {fileID: 1248733693}
 --- !u!224 &1247244795 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6394519294320966650, guid: c211c702e3f54453593f07e090c6f3fb,
