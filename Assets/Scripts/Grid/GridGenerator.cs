@@ -16,6 +16,8 @@ public class GridGenerator : MonoSingleton<GridGenerator>
 		_grid.CreateDebugObjects(debugGo, true);
 	}
 
+	/////////////////////////////////////////
+
 	public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
 	{
 		var gridObj = _grid.GetGridObject(gridPosition);

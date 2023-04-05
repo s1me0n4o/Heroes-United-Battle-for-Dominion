@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 
 public class GridSystemVisuals : MonoSingleton<GridSystemVisuals>
 {
-	[SerializeField] private Transform visualPrefab;
+	[FormerlySerializedAs("visualPrefab")] [SerializeField]
+	private Transform _visualPrefab;
 
 	private SingleGridVisual[,] _gridSystemVisuals;
 
@@ -21,7 +23,7 @@ public class GridSystemVisuals : MonoSingleton<GridSystemVisuals>
 			for (int j = 0; j < GridGenerator.Instance.GridHeight; j++)
 			{
 				var gridPos = new GridPosition(i, j);
-				var go = Instantiate(visualPrefab, GridGenerator.Instance.GetWorldPosition(gridPos),
+				var go = Instantiate(_visualPrefab, GridGenerator.Instance.GetWorldPosition(gridPos),
 					quaternion.identity);
 				go.SetParent(gameObject.transform);
 
@@ -34,6 +36,8 @@ public class GridSystemVisuals : MonoSingleton<GridSystemVisuals>
 	{
 		UpgradeGridVisual();
 	}
+
+	/////////////////////////////////////////
 
 	public void HideAllGridPositions()
 	{
@@ -54,10 +58,12 @@ public class GridSystemVisuals : MonoSingleton<GridSystemVisuals>
 		}
 	}
 
-	public void UpgradeGridVisual()
+	private void UpgradeGridVisual()
 	{
 		HideAllGridPositions();
-		var unit = UnitActionSystem.Instance.SelectedUnit;
-		ShowGridPositionLists(unit.GetMoveAction().GetValidGridPositions());
+		var selectedAction = UnitActionSystem.Instance.SelectedAction;
+		if (selectedAction == null)
+			return;
+		ShowGridPositionLists(selectedAction.GetValidGridPositions());
 	}
 }

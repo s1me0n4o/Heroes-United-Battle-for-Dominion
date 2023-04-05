@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-	// public MoveAction MoveAction { get; private set; }
-	// public GridPosition CurrentGridPosition { get; private set; }
 	private GridPosition _currentGridPosition;
 	private MoveAction _moveAction;
-	private void Awake() => _moveAction = GetComponent<MoveAction>();
+	private BaseAction[] _baseActions;
+	private int _actionPoints = 2;
 
-	public MoveAction GetMoveAction() => _moveAction;
+	private void Awake()
+	{
+		_moveAction = GetComponent<MoveAction>();
+		_baseActions = GetComponents<BaseAction>();
+	}
 
 	private void Start()
 	{
@@ -18,7 +21,6 @@ public class Unit : MonoBehaviour
 
 	private void Update()
 	{
-		//var newGridPos = GridGenerator.Instance.GetGridPosition(transform.position);
 		var targetGridPosition = GridGenerator.Instance.GetGridPosition(_moveAction.TargetPosition);
 		if (targetGridPosition == _currentGridPosition)
 			return;
@@ -28,5 +30,31 @@ public class Unit : MonoBehaviour
 		_currentGridPosition = targetGridPosition;
 	}
 
+	/////////////////////////////////////////
+
 	public GridPosition GetCurrentGridPosition() => _currentGridPosition;
+	public MoveAction GetMoveAction() => _moveAction;
+	public int GetRemainingActionsCount() => _actionPoints;
+	public BaseAction[] BaseActions => _baseActions;
+
+	public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
+	{
+		if (CanSpendActionPointsToTakeAction(baseAction))
+		{
+			SpendActionPoints(baseAction.GetActionPointsCost());
+			return true;
+		}
+
+		return false;
+	}
+
+	private bool CanSpendActionPointsToTakeAction(BaseAction baseAction)
+	{
+		return _actionPoints >= baseAction.GetActionPointsCost();
+	}
+
+	private void SpendActionPoints(int amount)
+	{
+		_actionPoints -= amount;
+	}
 }

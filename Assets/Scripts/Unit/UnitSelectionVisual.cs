@@ -22,7 +22,12 @@ public class UnitSelectionVisual : MonoBehaviour
 
 	private void OnEnable()
 	{
-		CameraHandler.OnInteractableSelected += OnUnitSelected;
+		UnitActionSystem.OnSelectedUnitChanged += OnUnitSelected;
+	}
+
+	private void OnDisable()
+	{
+		UnitActionSystem.OnSelectedUnitChanged -= OnUnitSelected;
 	}
 
 	private void OnUnitSelected(Unit unit)

@@ -5,13 +5,15 @@ using UnityEngine;
 public class MoveAction : BaseAction
 {
 	private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+
 	[SerializeField] private Animator _unitAnimator;
 	[SerializeField] private int _maxMoveDistance = 5;
+
 	private readonly float _movementSpeed = 4f;
 	private readonly float _rotationSpeed = 10f;
 	private readonly float _stoppingDistance = .01f;
-
 	private Vector3 _targetPosition;
+
 	public Vector3 TargetPosition => _targetPosition;
 
 	protected override void Awake()
@@ -42,21 +44,16 @@ public class MoveAction : BaseAction
 		}
 	}
 
-//////////////////////////////////////////
-	public void Move(GridPosition gridPosition, Action onActionComplete)
+	/////////////////////////////////////////
+
+	public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
 	{
 		OnActionComplete = onActionComplete;
 		IsActive = true;
 		_targetPosition = GridGenerator.Instance.GetWorldPosition(gridPosition);
 	}
 
-	public bool IsValidActionGridPosition(GridPosition gridPosition)
-	{
-		var validGridPositions = GetValidGridPositions();
-		return validGridPositions.Contains(gridPosition);
-	}
-
-	public List<GridPosition> GetValidGridPositions()
+	public override List<GridPosition> GetValidGridPositions()
 	{
 		var validPositions = new List<GridPosition>();
 
@@ -89,5 +86,10 @@ public class MoveAction : BaseAction
 		}
 
 		return validPositions;
+	}
+
+	public override string GetActionName()
+	{
+		return "Move";
 	}
 }
