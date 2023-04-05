@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveAction : MonoBehaviour
+public class MoveAction : BaseAction
 {
 	private static readonly int IsMoving = Animator.StringToHash("IsMoving");
 	[SerializeField] private Animator _unitAnimator;
@@ -13,16 +14,16 @@ public class MoveAction : MonoBehaviour
 	private Vector3 _targetPosition;
 	public Vector3 TargetPosition => _targetPosition;
 
-	private Unit _unit;
-
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		_targetPosition = transform.position;
-		_unit = GetComponent<Unit>();
 	}
 
 	private void Update()
 	{
+		if (!IsActive)
+			return;
 		if (Vector3.Distance(transform.position, _targetPosition) > _stoppingDistance)
 		{
 			// we dont want the magnitude that is why we normalize the vector.
@@ -36,12 +37,18 @@ public class MoveAction : MonoBehaviour
 		else
 		{
 			_unitAnimator.SetBool(IsMoving, false);
+			IsActive = false;
+			OnActionComplete();
 		}
 	}
 
-	//////////////////////////////////////////
-	public void Move(GridPosition gridPosition) =>
+//////////////////////////////////////////
+	public void Move(GridPosition gridPosition, Action onActionComplete)
+	{
+		OnActionComplete = onActionComplete;
+		IsActive = true;
 		_targetPosition = GridGenerator.Instance.GetWorldPosition(gridPosition);
+	}
 
 	public bool IsValidActionGridPosition(GridPosition gridPosition)
 	{
@@ -53,7 +60,7 @@ public class MoveAction : MonoBehaviour
 	{
 		var validPositions = new List<GridPosition>();
 
-		var unitGridPos = _unit.GetCurrentGridPosition();
+		var unitGridPos = Unit.GetCurrentGridPosition();
 		// current unit to be in the middle of the search
 		for (var x = -_maxMoveDistance; x <= _maxMoveDistance; x++)
 		{

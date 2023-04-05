@@ -8,9 +8,10 @@ public class UnitActionSystem : MonoSingleton<UnitActionSystem>
 {
 	[SerializeField] private Unit _selectedUnit;
 	private DefaultActions _defaultActions;
+	private DefaultActions DefaultActions => _defaultActions ??= new DefaultActions();
+	private bool _isBusy;
 
 	public Unit SelectedUnit => _selectedUnit;
-	private DefaultActions DefaultActions => _defaultActions ??= new DefaultActions();
 
 	private void OnEnable()
 	{
@@ -31,6 +32,9 @@ public class UnitActionSystem : MonoSingleton<UnitActionSystem>
 
 	private void OnRightClickPerformed(InputAction.CallbackContext ctx)
 	{
+		if (_isBusy)
+			return;
+
 		if (_selectedUnit == null)
 			return;
 
@@ -39,9 +43,15 @@ public class UnitActionSystem : MonoSingleton<UnitActionSystem>
 		var mouseGridPosition = GridGenerator.Instance.GetGridPosition(worldPositionOnPlane);
 		Debug.Log($"MouseGridPos - {mouseGridPosition}");
 		if (_selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
-			_selectedUnit.GetMoveAction().Move(mouseGridPosition);
+		{
+			SetBusy();
+			_selectedUnit.GetMoveAction().Move(mouseGridPosition, ClearBusy);
+		}
 	}
 
+	private void SetBusy() => _isBusy = true;
+
+	private void ClearBusy() => _isBusy = false;
 	// private void Update()
 	// {
 	// 	var screenPos = DefaultActions.UI.Point.ReadValue<Vector2>();
