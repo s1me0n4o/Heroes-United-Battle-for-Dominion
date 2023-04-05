@@ -1,11 +1,25 @@
+using System;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+	public static event Action OnAnyActionPointsChanged;
+
+	private const int ActionPointsMax = 2;
 	private GridPosition _currentGridPosition;
 	private MoveAction _moveAction;
 	private BaseAction[] _baseActions;
-	private int _actionPoints = 2;
+	private int _actionPoints = ActionPointsMax;
+
+	private void OnEnable()
+	{
+		TurnSystem.OnTurnChanged += OnTurnChanged;
+	}
+
+	private void OnDisable()
+	{
+		TurnSystem.OnTurnChanged -= OnTurnChanged;
+	}
 
 	private void Awake()
 	{
@@ -56,5 +70,12 @@ public class Unit : MonoBehaviour
 	private void SpendActionPoints(int amount)
 	{
 		_actionPoints -= amount;
+		OnAnyActionPointsChanged?.Invoke();
+	}
+
+	private void OnTurnChanged()
+	{
+		_actionPoints = ActionPointsMax;
+		OnAnyActionPointsChanged?.Invoke();
 	}
 }

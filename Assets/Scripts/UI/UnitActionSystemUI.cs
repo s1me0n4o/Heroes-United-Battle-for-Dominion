@@ -19,6 +19,8 @@ public class UnitActionSystemUI : MonoBehaviour
 		UnitActionSystem.OnSelectedAction += OnSelectedAction;
 		UnitActionSystem.OnSystemBusy += OnSystemBusy;
 		UnitActionSystem.OnActionStarted += OnActionStarted;
+		TurnSystem.OnTurnChanged += OnTurnChanged;
+		Unit.OnAnyActionPointsChanged += OnAnyActionPointsChanged;
 	}
 
 	private void OnDisable()
@@ -27,6 +29,8 @@ public class UnitActionSystemUI : MonoBehaviour
 		UnitActionSystem.OnSelectedAction -= OnSelectedAction;
 		UnitActionSystem.OnSystemBusy -= OnSystemBusy;
 		UnitActionSystem.OnActionStarted -= OnActionStarted;
+		TurnSystem.OnTurnChanged -= OnTurnChanged;
+		Unit.OnAnyActionPointsChanged -= OnAnyActionPointsChanged;
 	}
 
 	private void Start()
@@ -97,5 +101,15 @@ public class UnitActionSystemUI : MonoBehaviour
 		{
 			_actionPointsText.SetText($"Remaining Actions: {unit.GetRemainingActionsCount()}");
 		}
+	}
+
+	private void OnTurnChanged()
+	{
+		UpdateRemainingActionPoints();
+	}
+
+	private void OnAnyActionPointsChanged()
+	{
+		UpdateRemainingActionPoints();
 	}
 }
