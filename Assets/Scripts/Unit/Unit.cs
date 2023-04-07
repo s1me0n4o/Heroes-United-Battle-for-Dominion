@@ -5,6 +5,8 @@ public class Unit : MonoBehaviour
 {
 	public static event Action OnAnyActionPointsChanged;
 
+	[SerializeField] private bool _isEnemy;
+
 	private const int ActionPointsMax = 2;
 	private GridPosition _currentGridPosition;
 	private MoveAction _moveAction;
@@ -50,6 +52,7 @@ public class Unit : MonoBehaviour
 	public MoveAction GetMoveAction() => _moveAction;
 	public int GetRemainingActionsCount() => _actionPoints;
 	public BaseAction[] BaseActions => _baseActions;
+	public bool IsEnemy => _isEnemy;
 
 	public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
 	{
@@ -75,7 +78,10 @@ public class Unit : MonoBehaviour
 
 	private void OnTurnChanged()
 	{
-		_actionPoints = ActionPointsMax;
-		OnAnyActionPointsChanged?.Invoke();
+		if (_isEnemy && !TurnSystem.Instance.IsPlayerTurn || !_isEnemy && TurnSystem.Instance.IsPlayerTurn)
+		{
+			_actionPoints = ActionPointsMax;
+			OnAnyActionPointsChanged?.Invoke();
+		}
 	}
 }

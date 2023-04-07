@@ -40,6 +40,8 @@ public class UnitActionSystem : MonoSingleton<UnitActionSystem>
 	{
 		if (_selectedUnit == unit)
 			return;
+		if (unit.IsEnemy)
+			return;
 
 		_selectedUnit = unit;
 		_selectedAction = null;
@@ -51,6 +53,9 @@ public class UnitActionSystem : MonoSingleton<UnitActionSystem>
 		if (_isBusy)
 			return;
 
+		if (!TurnSystem.Instance.IsPlayerTurn)
+			return;
+
 		if (_selectedUnit == null)
 			return;
 
@@ -59,7 +64,6 @@ public class UnitActionSystem : MonoSingleton<UnitActionSystem>
 
 		if (EventSystem.current.IsPointerOverGameObject())
 			return;
-
 
 		HandleSelectedAction();
 	}
