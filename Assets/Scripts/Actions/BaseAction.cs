@@ -29,4 +29,16 @@ public abstract class BaseAction : MonoBehaviour
 		var validGridPositions = GetValidGridPositions();
 		return validGridPositions.Contains(gridPosition);
 	}
+
+	protected void ActionStart(Action onActionComplete)
+	{
+		IsActive = true;
+		OnActionComplete = onActionComplete;
+	}
+
+	protected void ActionComplete()
+	{
+		IsActive = false;
+		OnActionComplete();
+	}
 }

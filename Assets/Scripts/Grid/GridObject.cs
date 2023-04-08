@@ -34,4 +34,9 @@ public class GridObject //: MonoBehaviour
 	}
 
 	public bool HasAnyUnit() => _units.Any();
+
+	public Unit GetUnit()
+	{
+		return HasAnyUnit() ? _units.FirstOrDefault() : null;
+	}
 }

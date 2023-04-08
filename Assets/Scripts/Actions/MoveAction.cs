@@ -39,8 +39,7 @@ public class MoveAction : BaseAction
 		else
 		{
 			_unitAnimator.SetBool(IsMoving, false);
-			IsActive = false;
-			OnActionComplete();
+			ActionComplete();
 		}
 	}
 
@@ -48,8 +47,7 @@ public class MoveAction : BaseAction
 
 	public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
 	{
-		OnActionComplete = onActionComplete;
-		IsActive = true;
+		ActionStart(OnActionComplete);
 		_targetPosition = GridGenerator.Instance.GetWorldPosition(gridPosition);
 	}
 

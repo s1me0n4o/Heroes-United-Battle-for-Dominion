@@ -56,6 +56,12 @@ public class GridGenerator : MonoSingleton<GridGenerator>
 		return gridObj.HasAnyUnit();
 	}
 
+	public Unit GetUnitOnGridPosition(GridPosition gridPosition)
+	{
+		var gridObj = _grid.GetGridObject(gridPosition);
+		return gridObj.GetUnit();
+	}
+
 	public int GridHeight => _grid.GetGridHeight();
 	public int GridWidth => _grid.GetGridWidth();
 }

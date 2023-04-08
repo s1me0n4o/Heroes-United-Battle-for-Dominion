@@ -84,4 +84,14 @@ public class Unit : MonoBehaviour
 			OnAnyActionPointsChanged?.Invoke();
 		}
 	}
+
+	public void Damage()
+	{
+		Debug.Log("Damage");
+	}
+
+	public Vector3 GetWorldPosition()
+	{
+		return transform.position;
+	}
 }
