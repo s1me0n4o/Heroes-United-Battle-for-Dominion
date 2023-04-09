@@ -12,7 +12,7 @@ public class ActionButtonUI : MonoBehaviour
 	[SerializeField] private GameObject _selectedBtnImg;
 	private BaseAction _baseAction;
 
-	private void OnDisable()
+	private void OnDestroy()
 	{
 		_button.onClick.RemoveAllListeners();
 	}

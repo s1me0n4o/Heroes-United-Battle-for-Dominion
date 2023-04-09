@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using GridSystem;
-using UnityEngine;
 
-public class GridObject //: MonoBehaviour
+public class GridObject
 {
 	private readonly Grid<GridObject> _grid;
 	private readonly GridPosition _gridPosition;

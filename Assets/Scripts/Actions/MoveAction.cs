@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MoveAction : BaseAction
 {
-	private static readonly int IsMoving = Animator.StringToHash("IsMoving");
+	public Action OnStartMoving;
+	public Action OnStopMoving;
 
-	[SerializeField] private Animator _unitAnimator;
 	[SerializeField] private int _maxMoveDistance = 5;
 
 	private readonly float _movementSpeed = 4f;
@@ -34,11 +34,10 @@ public class MoveAction : BaseAction
 
 			// rotate
 			transform.forward = Vector3.Lerp(transform.forward, moveDir, Time.deltaTime * _rotationSpeed);
-			_unitAnimator.SetBool(IsMoving, true);
 		}
 		else
 		{
-			_unitAnimator.SetBool(IsMoving, false);
+			OnStopMoving?.Invoke();
 			ActionComplete();
 		}
 	}
@@ -47,8 +46,10 @@ public class MoveAction : BaseAction
 
 	public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
 	{
-		ActionStart(OnActionComplete);
+		ActionStart(onActionComplete);
 		_targetPosition = GridGenerator.Instance.GetWorldPosition(gridPosition);
+
+		OnStartMoving?.Invoke();
 	}
 
 	public override List<GridPosition> GetValidGridPositions()

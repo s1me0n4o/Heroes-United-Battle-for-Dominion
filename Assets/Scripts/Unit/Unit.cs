@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -6,12 +7,15 @@ public class Unit : MonoBehaviour
 	public static event Action OnAnyActionPointsChanged;
 
 	[SerializeField] private bool _isEnemy;
+	[SerializeField] private Transform _bulletPrefab;
+	[SerializeField] private Transform _shootPoint;
 
 	private const int ActionPointsMax = 2;
 	private GridPosition _currentGridPosition;
 	private MoveAction _moveAction;
 	private BaseAction[] _baseActions;
 	private int _actionPoints = ActionPointsMax;
+	private Bullet _bullet;
 
 	private void OnEnable()
 	{
@@ -93,5 +97,11 @@ public class Unit : MonoBehaviour
 	public Vector3 GetWorldPosition()
 	{
 		return transform.position;
+	}
+
+	public void InitBullet(Vector3 targetPos)
+	{
+		_bullet = Instantiate(_bulletPrefab, _shootPoint.position, quaternion.identity).GetComponent<Bullet>();
+		_bullet.Setup(targetPos);
 	}
 }

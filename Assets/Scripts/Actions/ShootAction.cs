@@ -1,10 +1,17 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+	public Action OnShootStart;
+
+	public class OnShootEventArgs : EventArgs
+	{
+		public Unit targgetUnit;
+		public Unit shootingUnit;
+	}
+
 	private enum ShootingState
 	{
 		Aiming,
@@ -12,12 +19,12 @@ public class ShootAction : BaseAction
 		Cooloff
 	}
 
-	private float _stateTimer;
 	private readonly int _maxShootDistance = 7;
+	private readonly float _rotationSpeed = 10f;
+	private float _stateTimer;
+	private bool _canShoot;
 	private ShootingState _state;
 	private Unit _targetUnit;
-	private bool _canShoot;
-	private float _rotationSpeed = 10f;
 
 	private void Update()
 	{
@@ -56,6 +63,11 @@ public class ShootAction : BaseAction
 	private void Shoot()
 	{
 		_targetUnit.Damage();
+
+		var targetUnitShootAtPos = _targetUnit.GetWorldPosition();
+		targetUnitShootAtPos.y = 1f;
+		OnShootStart?.Invoke();
+		Unit.InitBullet(targetUnitShootAtPos);
 	}
 
 	private void NextState()
@@ -85,7 +97,7 @@ public class ShootAction : BaseAction
 
 	public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
 	{
-		ActionStart(OnActionComplete);
+		ActionStart(onActionComplete);
 
 		_targetUnit = GridGenerator.Instance.GetUnitOnGridPosition(gridPosition);
 
