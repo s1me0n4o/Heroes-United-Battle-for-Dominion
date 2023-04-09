@@ -21,6 +21,8 @@ public class Bullet : MonoBehaviour
 		var distanceAfterMove = Vector3.Distance(transform.position, _targetPosition);
 		if (distanceBeforeMove < distanceAfterMove)
 		{
+			transform.position = _targetPosition;
+			_bulletHitVfx.parent = null;
 			Destroy(gameObject);
 			Instantiate(_bulletHitVfx, _targetPosition, quaternion.identity);
 		}
