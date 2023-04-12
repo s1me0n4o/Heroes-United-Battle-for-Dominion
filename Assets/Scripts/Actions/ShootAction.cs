@@ -62,7 +62,8 @@ public class ShootAction : BaseAction
 
 	private void Shoot()
 	{
-		_targetUnit.Damage();
+		var dmg = 40;
+		_targetUnit.Damage(dmg);
 
 		var targetUnitShootAtPos = _targetUnit.GetWorldPosition();
 		targetUnitShootAtPos.y = 1f;

@@ -16,21 +16,25 @@ public class Unit : MonoBehaviour
 	private BaseAction[] _baseActions;
 	private int _actionPoints = ActionPointsMax;
 	private Bullet _bullet;
+	private HealthSystem _healthSystem;
 
 	private void OnEnable()
 	{
 		TurnSystem.OnTurnChanged += OnTurnChanged;
+		_healthSystem.OnDead += OnDead;
 	}
 
 	private void OnDisable()
 	{
 		TurnSystem.OnTurnChanged -= OnTurnChanged;
+		_healthSystem.OnDead -= OnDead;
 	}
 
 	private void Awake()
 	{
 		_moveAction = GetComponent<MoveAction>();
 		_baseActions = GetComponents<BaseAction>();
+		_healthSystem = GetComponent<HealthSystem>();
 	}
 
 	private void Start()
@@ -89,9 +93,9 @@ public class Unit : MonoBehaviour
 		}
 	}
 
-	public void Damage()
+	public void Damage(int damage)
 	{
-		Debug.Log("Damage");
+		_healthSystem.TakeDamage(damage);
 	}
 
 	public Vector3 GetWorldPosition()
@@ -103,5 +107,11 @@ public class Unit : MonoBehaviour
 	{
 		_bullet = Instantiate(_bulletPrefab, _shootPoint.position, quaternion.identity).GetComponent<Bullet>();
 		_bullet.Setup(targetPos);
+	}
+
+	private void OnDead()
+	{
+		GridGenerator.Instance.RemoveUnitAtGridPosition(_currentGridPosition, this);
+		Destroy(gameObject);
 	}
 }
