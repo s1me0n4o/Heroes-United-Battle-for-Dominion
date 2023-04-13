@@ -112,6 +112,7 @@ public class Unit : MonoBehaviour
 	private void OnDead()
 	{
 		GridGenerator.Instance.RemoveUnitAtGridPosition(_currentGridPosition, this);
+		BroadcastMessage("Explode");
 		Destroy(gameObject);
 	}
 }
