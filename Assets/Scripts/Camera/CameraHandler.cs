@@ -487,9 +487,7 @@ namespace Camera
 		/////////////////////////////////////////////////////
 		public void SetCameraDistance(float distance)
 		{
-			//_zoomCameraDistance = Mathf.Clamp(distance, _minZoomDistance, _maxZoomDistance);
-			// _transposer.m_CameraDistance = Mathf.Lerp(_transposer.m_CameraDistance, distance, Time.deltaTime);
-			_transposer.m_CameraDistance = distance;
+			_transposer.m_CameraDistance = Mathf.Lerp(_transposer.m_CameraDistance, distance, Time.deltaTime * 10f);
 		}
 
 		private void RotateCamera(bool positive, bool useMobile = false)
