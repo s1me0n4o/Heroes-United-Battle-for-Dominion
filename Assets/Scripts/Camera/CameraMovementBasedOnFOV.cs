@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Camera
+namespace Game.Camera
 {
 	public class CameraMovementBasedOnFOV : MonoBehaviour
 	{
@@ -32,7 +32,6 @@ namespace Camera
 
 			_virtualCamera.m_Lens.FieldOfView = (_minFov + _maxFov) / 2;
 			_initialFov = _virtualCamera.m_Lens.FieldOfView;
-
 		}
 
 		private void OnEnable()

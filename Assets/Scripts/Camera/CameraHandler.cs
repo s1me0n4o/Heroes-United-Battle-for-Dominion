@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
+using Camera;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 using Utils;
 
-namespace Camera
+namespace Game.Camera
 {
 	public class CameraHandler : MonoSingleton<CameraHandler>
 	{
@@ -18,6 +19,8 @@ namespace Camera
 			LongPress,
 			PinchZoom
 		}
+
+		[SerializeField] private CameraManager.GameCameraType _cameraType;
 
 		/////////////////////////////////////////////////////
 		private const float _kScreenXY = 0.5f;

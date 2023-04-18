@@ -98,12 +98,15 @@ public class ShootAction : BaseAction
 
 	public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
 	{
-		ActionStart(onActionComplete);
-
 		_targetUnit = GridGenerator.Instance.GetUnitOnGridPosition(gridPosition);
 
 		SetStateData(ShootingState.Aiming, 1f);
 		_canShoot = true;
+		ActionStart(onActionComplete, new OnShootEventArgs
+		{
+			shootingUnit = Unit,
+			targgetUnit = _targetUnit
+		});
 	}
 
 	private void SetStateData(ShootingState state, float time)

@@ -1,6 +1,5 @@
 using System;
-using Camera;
-using UnityEngine;
+using Game.Camera;
 using UnityEngine.InputSystem;
 using Utils;
 using UnityEngine.EventSystems;

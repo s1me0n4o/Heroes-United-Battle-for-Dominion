@@ -46,10 +46,10 @@ public class MoveAction : BaseAction
 
 	public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
 	{
-		ActionStart(onActionComplete);
 		_targetPosition = GridGenerator.Instance.GetWorldPosition(gridPosition);
 
 		OnStartMoving?.Invoke();
+		ActionStart(onActionComplete, EventArgs.Empty);
 	}
 
 	public override List<GridPosition> GetValidGridPositions()
