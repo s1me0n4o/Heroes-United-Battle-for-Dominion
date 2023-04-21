@@ -12,6 +12,8 @@ public class ShootAction : BaseAction
 		public Unit shootingUnit;
 	}
 
+	public int MaxShootRange => _maxShootDistance;
+
 	private enum ShootingState
 	{
 		Aiming,

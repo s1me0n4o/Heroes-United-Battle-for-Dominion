@@ -787,6 +787,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1952486034637213389, guid: c1ff4e08748e640658d6c338d2ad92a4,
+        type: 3}
+      propertyPath: _maxMoveDistance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2957817058975628578, guid: c1ff4e08748e640658d6c338d2ad92a4,
         type: 3}
       propertyPath: m_Name
@@ -2338,6 +2343,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visualPrefab: {fileID: 3514892735960418590, guid: 0c46b139240764a9f8931dbb2a807053,
     type: 3}
+  _gridVisualColorMaterials:
+  - Color: 1
+    Material: {fileID: 2100000, guid: d3ac631dec3dc46398c2e751bfca961c, type: 2}
+  - Color: 0
+    Material: {fileID: 2100000, guid: 9566b6697624a4d168255f58bc53ab70, type: 2}
+  - Color: 2
+    Material: {fileID: 2100000, guid: 0b5479c92f48e47f7bef6cdb55a3977d, type: 2}
+  - Color: 3
+    Material: {fileID: 2100000, guid: 805f03fe37010427daa2ad22fa79cd6e, type: 2}
+  - Color: 4
+    Material: {fileID: 2100000, guid: 231660f1668374beab6a8c423f0d6668, type: 2}
 --- !u!4 &1290759706
 Transform:
   m_ObjectHideFlags: 0
@@ -2683,6 +2699,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1952486034637213389, guid: c1ff4e08748e640658d6c338d2ad92a4,
+        type: 3}
+      propertyPath: _maxMoveDistance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2957817058975628578, guid: c1ff4e08748e640658d6c338d2ad92a4,
         type: 3}
       propertyPath: m_Name
