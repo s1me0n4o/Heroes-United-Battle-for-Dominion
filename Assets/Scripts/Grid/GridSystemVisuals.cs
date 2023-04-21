@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -10,6 +11,35 @@ public class GridSystemVisuals : MonoSingleton<GridSystemVisuals>
 	private Transform _visualPrefab;
 
 	private SingleGridVisual[,] _gridSystemVisuals;
+
+	private void OnEnable()
+	{
+		UnitActionSystem.OnSelectedAction += OnActionSelected;
+		GridGenerator.OnUnitMove += OnUnitMove;
+		UnitActionSystem.OnSelectedUnitChanged += OnUnitSelected;
+	}
+
+	private void OnDisable()
+	{
+		UnitActionSystem.OnSelectedAction -= OnActionSelected;
+		GridGenerator.OnUnitMove -= OnUnitMove;
+		UnitActionSystem.OnSelectedUnitChanged -= OnUnitSelected;
+	}
+
+	private void OnUnitMove()
+	{
+		UpdateGridVisual();
+	}
+
+	private void OnActionSelected()
+	{
+		UpdateGridVisual();
+	}
+
+	private void OnUnitSelected(Unit obj)
+	{
+		HideAllGridPositions();
+	}
 
 	private void Start()
 	{
@@ -28,12 +58,14 @@ public class GridSystemVisuals : MonoSingleton<GridSystemVisuals>
 				_gridSystemVisuals[i, j] = go.GetComponent<SingleGridVisual>();
 			}
 		}
+
+		UpdateGridVisual();
 	}
 
-	private void Update()
-	{
-		UpgradeGridVisual();
-	}
+	// private void Update()
+	// {
+	// 	UpdateGridVisual();
+	// }
 
 	/////////////////////////////////////////
 
@@ -56,7 +88,7 @@ public class GridSystemVisuals : MonoSingleton<GridSystemVisuals>
 		}
 	}
 
-	private void UpgradeGridVisual()
+	private void UpdateGridVisual()
 	{
 		HideAllGridPositions();
 		var selectedAction = UnitActionSystem.Instance.SelectedAction;

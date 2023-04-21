@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GridSystem;
 using UnityEngine;
@@ -5,6 +6,8 @@ using Utils;
 
 public class GridGenerator : MonoSingleton<GridGenerator>
 {
+	public static event Action OnUnitMove;
+
 	[SerializeField] private Transform debugGo;
 	private Grid<GridObject> _grid;
 
@@ -39,8 +42,9 @@ public class GridGenerator : MonoSingleton<GridGenerator>
 	public void UnitMoveGridPosition(Unit unit, GridPosition fromPos, GridPosition toPos)
 	{
 		RemoveUnitAtGridPosition(fromPos, unit);
-		Debug.Log($"UnitMoveToGrid: {toPos.x}, {toPos.z}");
 		AddUnitAtGridPosition(toPos, unit);
+
+		OnUnitMove?.Invoke();
 	}
 
 	public GridPosition GetGridPosition(Vector3 worldPos) => _grid.GetGridPosition(worldPos);

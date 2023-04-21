@@ -50,8 +50,9 @@ public class Unit : MonoBehaviour
 			return;
 		if (!_moveAction.IsValidActionGridPosition(targetGridPosition))
 			return;
-		GridGenerator.Instance.UnitMoveGridPosition(this, _currentGridPosition, targetGridPosition);
+		var oldGridPos = _currentGridPosition;
 		_currentGridPosition = targetGridPosition;
+		GridGenerator.Instance.UnitMoveGridPosition(this, oldGridPos, targetGridPosition);
 	}
 
 	/////////////////////////////////////////
