@@ -87,6 +87,17 @@ public class MoveAction : BaseAction
 		return validPositions;
 	}
 
+	public override EnemyAIAction GetEnemyAIAction(GridPosition gridPos)
+	{
+		// prioritise position with a lot of enemies
+		var targetCountAtGridPos = Unit.GetShootAction().GetTargetCountAtPosition(gridPos);
+		return new EnemyAIAction()
+		{
+			GridPosition = gridPos,
+			ActionValue = targetCountAtGridPos * 10,
+		};
+	}
+
 	public override string GetActionName()
 	{
 		return "Move";

@@ -5,6 +5,8 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
 	public static event Action OnAnyActionPointsChanged;
+	public static event EventHandler OnAnyUnitSpawn;
+	public static event EventHandler OnAnyUnitDead;
 
 	[SerializeField] private bool _isEnemy;
 	[SerializeField] private Transform _bulletPrefab;
@@ -13,10 +15,20 @@ public class Unit : MonoBehaviour
 	private const int ActionPointsMax = 2;
 	private GridPosition _currentGridPosition;
 	private MoveAction _moveAction;
+	private ShootAction _shootAction;
 	private BaseAction[] _baseActions;
 	private int _actionPoints = ActionPointsMax;
 	private Bullet _bullet;
 	private HealthSystem _healthSystem;
+
+
+	public GridPosition GetCurrentGridPosition() => _currentGridPosition;
+	public MoveAction GetMoveAction() => _moveAction;
+	public ShootAction GetShootAction() => _shootAction;
+	public float GetHealthNormalized => _healthSystem.GetHealthNormalized();
+	public int GetRemainingActionsCount() => _actionPoints;
+	public BaseAction[] BaseActions => _baseActions;
+	public bool IsEnemy => _isEnemy;
 
 	private void OnEnable()
 	{
@@ -33,6 +45,7 @@ public class Unit : MonoBehaviour
 	private void Awake()
 	{
 		_moveAction = GetComponent<MoveAction>();
+		_shootAction = GetComponent<ShootAction>();
 		_baseActions = GetComponents<BaseAction>();
 		_healthSystem = GetComponent<HealthSystem>();
 	}
@@ -41,6 +54,8 @@ public class Unit : MonoBehaviour
 	{
 		_currentGridPosition = GridGenerator.Instance.GetGridPosition(transform.position);
 		GridGenerator.Instance.AddUnitAtGridPosition(_currentGridPosition, this);
+
+		OnAnyUnitSpawn?.Invoke(this, EventArgs.Empty);
 	}
 
 	private void Update()
@@ -57,11 +72,6 @@ public class Unit : MonoBehaviour
 
 	/////////////////////////////////////////
 
-	public GridPosition GetCurrentGridPosition() => _currentGridPosition;
-	public MoveAction GetMoveAction() => _moveAction;
-	public int GetRemainingActionsCount() => _actionPoints;
-	public BaseAction[] BaseActions => _baseActions;
-	public bool IsEnemy => _isEnemy;
 
 	public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
 	{
@@ -74,7 +84,7 @@ public class Unit : MonoBehaviour
 		return false;
 	}
 
-	private bool CanSpendActionPointsToTakeAction(BaseAction baseAction)
+	public bool CanSpendActionPointsToTakeAction(BaseAction baseAction)
 	{
 		return _actionPoints >= baseAction.GetActionPointsCost();
 	}
@@ -115,5 +125,7 @@ public class Unit : MonoBehaviour
 		GridGenerator.Instance.RemoveUnitAtGridPosition(_currentGridPosition, this);
 		BroadcastMessage("Explode");
 		Destroy(gameObject);
+
+		OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
 	}
 }

@@ -120,9 +120,15 @@ public class ShootAction : BaseAction
 
 	public override List<GridPosition> GetValidGridPositions()
 	{
+		var unitGridPos = Unit.GetCurrentGridPosition();
+
+		return GetValidGridPositions(unitGridPos);
+	}
+
+	public List<GridPosition> GetValidGridPositions(GridPosition unitGridPos)
+	{
 		var validPositions = new List<GridPosition>();
 
-		var unitGridPos = Unit.GetCurrentGridPosition();
 		// current unit to be in the middle of the search
 		for (var x = -_maxShootDistance; x <= _maxShootDistance; x++)
 		{
@@ -158,5 +164,21 @@ public class ShootAction : BaseAction
 		}
 
 		return validPositions;
+	}
+
+	public override EnemyAIAction GetEnemyAIAction(GridPosition gridPos)
+	{
+		var targetUnit = GridGenerator.Instance.GetUnitOnGridPosition(gridPos);
+
+		return new EnemyAIAction()
+		{
+			GridPosition = gridPos,
+			ActionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthNormalized) * 100f),
+		};
+	}
+
+	public int GetTargetCountAtPosition(GridPosition gridPosition)
+	{
+		return GetValidGridPositions(gridPosition).Count;
 	}
 }
