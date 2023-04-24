@@ -14,8 +14,6 @@ public class Unit : MonoBehaviour
 
 	private const int ActionPointsMax = 2;
 	private GridPosition _currentGridPosition;
-	private MoveAction _moveAction;
-	private ShootAction _shootAction;
 	private BaseAction[] _baseActions;
 	private int _actionPoints = ActionPointsMax;
 	private Bullet _bullet;
@@ -23,8 +21,6 @@ public class Unit : MonoBehaviour
 
 
 	public GridPosition GetCurrentGridPosition() => _currentGridPosition;
-	public MoveAction GetMoveAction() => _moveAction;
-	public ShootAction GetShootAction() => _shootAction;
 	public float GetHealthNormalized => _healthSystem.GetHealthNormalized();
 	public int GetRemainingActionsCount() => _actionPoints;
 	public BaseAction[] BaseActions => _baseActions;
@@ -44,8 +40,6 @@ public class Unit : MonoBehaviour
 
 	private void Awake()
 	{
-		_moveAction = GetComponent<MoveAction>();
-		_shootAction = GetComponent<ShootAction>();
 		_baseActions = GetComponents<BaseAction>();
 		_healthSystem = GetComponent<HealthSystem>();
 	}
@@ -60,10 +54,10 @@ public class Unit : MonoBehaviour
 
 	private void Update()
 	{
-		var targetGridPosition = GridGenerator.Instance.GetGridPosition(_moveAction.TargetPosition);
+		var targetGridPosition = GridGenerator.Instance.GetGridPosition(GetAction<MoveAction>().TargetPosition);
 		if (targetGridPosition == _currentGridPosition)
 			return;
-		if (!_moveAction.IsValidActionGridPosition(targetGridPosition))
+		if (!GetAction<MoveAction>().IsValidActionGridPosition(targetGridPosition))
 			return;
 		var oldGridPos = _currentGridPosition;
 		_currentGridPosition = targetGridPosition;
@@ -72,6 +66,18 @@ public class Unit : MonoBehaviour
 
 	/////////////////////////////////////////
 
+	public T GetAction<T>() where T : BaseAction
+	{
+		foreach (var action in _baseActions)
+		{
+			if (action is T baseAction)
+			{
+				return baseAction;
+			}
+		}
+
+		return null;
+	}
 
 	public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
 	{
