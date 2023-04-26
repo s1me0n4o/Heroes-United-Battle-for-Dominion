@@ -209,6 +209,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8584688785289875477, guid: f7e7b61a18713449fb7e484d33c7e914,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584688785289875477, guid: f7e7b61a18713449fb7e484d33c7e914,
+        type: 3}
+      propertyPath: autoRepath.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584688785289875477, guid: f7e7b61a18713449fb7e484d33c7e914,
+        type: 3}
+      propertyPath: slowdownDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584688785289875477, guid: f7e7b61a18713449fb7e484d33c7e914,
+        type: 3}
+      propertyPath: autoRepath.period
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584688785289875477, guid: f7e7b61a18713449fb7e484d33c7e914,
+        type: 3}
+      propertyPath: endReachedDistance
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9159214106541183700, guid: f7e7b61a18713449fb7e484d33c7e914,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7e7b61a18713449fb7e484d33c7e914, type: 3}
 --- !u!4 &2957817058975628765 stripped

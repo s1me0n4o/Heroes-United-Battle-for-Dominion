@@ -65,5 +65,5 @@ public abstract class BaseAction : MonoBehaviour
 		return null;
 	}
 
-	public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPos);
+	protected abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPos);
 }

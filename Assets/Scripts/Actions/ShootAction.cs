@@ -166,7 +166,7 @@ public class ShootAction : BaseAction
 		return validPositions;
 	}
 
-	public override EnemyAIAction GetEnemyAIAction(GridPosition gridPos)
+	protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPos)
 	{
 		var targetUnit = GridGenerator.Instance.GetUnitOnGridPosition(gridPos);
 

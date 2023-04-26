@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class MoveAction : BaseAction
 {
@@ -11,8 +12,10 @@ public class MoveAction : BaseAction
 
 	private readonly float _movementSpeed = 4f;
 	private readonly float _rotationSpeed = 10f;
-	private readonly float _stoppingDistance = .01f;
+	private readonly float _stoppingDistance = .03f;
 	private Vector3 _targetPosition;
+	private AIPath _aiPath;
+	private AIDestinationSetter _aiDestinationSetter;
 
 	public Vector3 TargetPosition => _targetPosition;
 
@@ -20,6 +23,8 @@ public class MoveAction : BaseAction
 	{
 		base.Awake();
 		_targetPosition = transform.position;
+		_aiPath = GetComponent<AIPath>();
+		_aiDestinationSetter = GetComponent<AIDestinationSetter>();
 	}
 
 	private void Update()
@@ -27,19 +32,9 @@ public class MoveAction : BaseAction
 		if (!IsActive)
 			return;
 		if (Vector3.Distance(transform.position, _targetPosition) > _stoppingDistance)
-		{
-			// we dont want the magnitude that is why we normalize the vector.
-			var moveDir = (_targetPosition - transform.position).normalized;
-			transform.position += moveDir * _movementSpeed * Time.deltaTime;
-
-			// rotate
-			transform.forward = Vector3.Lerp(transform.forward, moveDir, Time.deltaTime * _rotationSpeed);
-		}
-		else
-		{
-			OnStopMoving?.Invoke();
-			ActionComplete();
-		}
+			return;
+		OnStopMoving?.Invoke();
+		ActionComplete();
 	}
 
 	/////////////////////////////////////////
@@ -47,6 +42,7 @@ public class MoveAction : BaseAction
 	public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
 	{
 		_targetPosition = GridGenerator.Instance.GetWorldPosition(gridPosition);
+		_aiPath.destination = _targetPosition;
 
 		OnStartMoving?.Invoke();
 		ActionStart(onActionComplete, EventArgs.Empty);
@@ -87,7 +83,7 @@ public class MoveAction : BaseAction
 		return validPositions;
 	}
 
-	public override EnemyAIAction GetEnemyAIAction(GridPosition gridPos)
+	protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPos)
 	{
 		// prioritise position with a lot of enemies
 		var targetCountAtGridPos = Unit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPos);

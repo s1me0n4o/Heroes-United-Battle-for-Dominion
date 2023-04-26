@@ -84,3 +84,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 .vscode/settings.json
 .DS_Store
+/[Aa]ssets/[Tt]hirdPartyAssets/*

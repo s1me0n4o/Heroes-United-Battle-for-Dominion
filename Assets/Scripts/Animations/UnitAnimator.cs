@@ -51,9 +51,17 @@ public class UnitAnimator : MonoBehaviour
 		}
 	}
 
-	private void OnStopMoving() => _animator.SetBool(IsMoving, false);
+	private void OnStopMoving()
+	{
+		Debug.Log($"ISMoving {false}");
+		_animator.SetBool(IsMoving, false);
+	}
 
-	private void OnStartMoving() => _animator.SetBool(IsMoving, true);
+	private void OnStartMoving()
+	{
+		Debug.Log($"ISMoving {true}");
+		_animator.SetBool(IsMoving, true);
+	}
 
 	private void OnShootStart() => _animator.SetTrigger(Shooting);
 
