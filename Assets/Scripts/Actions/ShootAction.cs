@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+	public static Action OnAnyShoot;
 	public Action OnShootStart;
 
 	public class OnShootEventArgs : EventArgs
@@ -70,6 +71,7 @@ public class ShootAction : BaseAction
 		var targetUnitShootAtPos = _targetUnit.GetWorldPosition();
 		targetUnitShootAtPos.y = 1f;
 		OnShootStart?.Invoke();
+		OnAnyShoot?.Invoke();
 		Unit.InitBullet(targetUnitShootAtPos);
 	}
 
