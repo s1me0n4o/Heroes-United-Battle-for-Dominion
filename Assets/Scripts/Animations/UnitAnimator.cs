@@ -6,6 +6,7 @@ public class UnitAnimator : MonoBehaviour
 	private static readonly int Shooting = Animator.StringToHash("Shoot");
 	private static readonly int GetHit = Animator.StringToHash("IsHit");
 	private static readonly int Dead = Animator.StringToHash("IsDead");
+	private static readonly int AOEShoot = Animator.StringToHash("AOEShoot");
 
 	[SerializeField] private Animator _animator;
 
@@ -22,6 +23,11 @@ public class UnitAnimator : MonoBehaviour
 		if (TryGetComponent<ShootAction>(out var shootAction))
 		{
 			shootAction.OnShootStart += OnShootStart;
+		}
+
+		if (TryGetComponent<AOEAction>(out var aoeAction))
+		{
+			aoeAction.OnAoeShoot += OnAoeSkill;
 		}
 
 		if (TryGetComponent<HealthSystem>(out var healthAction))
@@ -49,7 +55,14 @@ public class UnitAnimator : MonoBehaviour
 			healthAction.OnDead -= OnDead;
 			healthAction.OnHit -= OnGetHit;
 		}
+
+		if (TryGetComponent<AOEAction>(out var aoeAction))
+		{
+			aoeAction.OnAoeShoot -= OnAoeSkill;
+		}
 	}
+
+	private void OnAoeSkill() => _animator.SetTrigger(AOEShoot);
 
 	private void OnStopMoving()
 	{
