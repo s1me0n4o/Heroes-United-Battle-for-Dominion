@@ -1,8 +1,10 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class AOEProjectile : MonoBehaviour
 {
+	[SerializeField] private GameObject _aoeSkillPrefab;
 	private Vector3 _targetPos;
 	private readonly float _reachedTargetDistance = .2f;
 	private readonly float _damageRadius = 4f;
@@ -27,6 +29,8 @@ public class AOEProjectile : MonoBehaviour
 			}
 
 			Destroy(gameObject);
+			if (_aoeSkillPrefab != null)
+				Instantiate(_aoeSkillPrefab, _targetPos, quaternion.identity);
 			_onAOEActionComplete();
 		}
 	}
